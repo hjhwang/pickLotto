@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">로또-번호를부탁해</string>
+    <string name="title_activity_sub">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
