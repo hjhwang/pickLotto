@@ -5,12 +5,15 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.justcode.picklotto.R;
 import com.justcode.picklotto.data.repository.entity.DrwEntity;
 import com.justcode.picklotto.databinding.ActivityIntroBinding;
 import com.justcode.picklotto.domain.viewmodel.usecase.DrwUseCase;
 import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwListener;
+import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwsListener;
 import com.justcode.picklotto.ui.BaseActivity;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +36,7 @@ public class IntroActivity extends BaseActivity {
         } else {
             startMainActivity();
         }
+        DrwUseCase.getDrwsInfo(this, mDrwsListener);
         getCurrentDrwbyDate();
     }
 
@@ -57,6 +61,26 @@ public class IntroActivity extends BaseActivity {
         @Override
         public void onFail(String msg) {
             startMainActivity();
+        }
+    };
+
+    /**
+     * 업체 설정
+     */
+    DrwsListener mDrwsListener = new DrwsListener() {
+        @Override
+        public void onLoadComplete(JsonArray array) {
+            Log.e(TAG, array.toString());
+        }
+
+        @Override
+        public void onCancelComplete(JsonArray array) {
+
+        }
+
+        @Override
+        public void onSetComplete() {
+
         }
     };
 

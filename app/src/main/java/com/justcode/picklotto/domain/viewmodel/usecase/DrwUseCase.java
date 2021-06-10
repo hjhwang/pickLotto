@@ -3,12 +3,16 @@ package com.justcode.picklotto.domain.viewmodel.usecase;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.justcode.picklotto.R;
 import com.justcode.picklotto.data.repository.api.GetDrwApi;
 import com.justcode.picklotto.data.repository.entity.DrwEntity;
+import com.justcode.picklotto.domain.listener.ApiJsonArrayListener;
 import com.justcode.picklotto.domain.listener.ApiJsonObjectListener;
 import com.justcode.picklotto.domain.parser.DrwParser;
 import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwListener;
+import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwsListener;
 import com.justcode.picklotto.ui.BaseActivity;
 
 import java.util.HashSet;
@@ -42,6 +46,34 @@ public class DrwUseCase {
             }
         };
         GetDrwApi.getDrwInfo(apiListener, drwNo);
+    }
+
+    /**
+     * 업체별 정보
+     */
+    public static void getDrwsInfo(Context context, DrwsListener listener) {
+        ApiJsonArrayListener apiListener = new ApiJsonArrayListener() {
+            @Override
+            public void onSuccess(int resultCode, JsonArray array) {
+                if (array.size() == 0) {
+                    /*DialogUtil.alert(
+                            context,
+                            R.string.confirm_networkfail_retry,
+                            (dialogInterface, i) -> {
+                                getCompanyInfo(context, listener);
+                            }, false
+                    );*/
+                    return;
+                }
+                listener.onLoadComplete(array);
+            }
+
+            @Override
+            public void onFailed(Throwable status) {
+                Log.e(TAG, status.getMessage());
+            }
+        };
+        GetDrwApi.getDrwsInfo(apiListener);
     }
 
     /**

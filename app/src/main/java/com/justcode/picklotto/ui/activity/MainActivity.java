@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     // 2021-05-22 946회
     // db 최신 +1 fail일 경우 예외처리
     // 최초 실행시 1회차 부터 db저장
+    // git access token : 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
     /*
     // imageView.setColorFilter(getResources().getColor(R.color.color_white));
     */
@@ -71,11 +72,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // QR코드 스캔한 결과
+        if (data == null) return;
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        // result.getFormatName() : 바코드 종류
-        // result.getContents() : 바코드 값
-        // mTextMessage.setText( result.getContents() );
-        if (result == null) return;
         String address = result.getContents();
         if (!address.startsWith("http://")) {
             address = "http://" + address;

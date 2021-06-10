@@ -1,5 +1,6 @@
 package com.justcode.picklotto.data.repository.api;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.justcode.picklotto.data.constant.ApiUrl;
 
@@ -15,6 +16,10 @@ public interface RetrofitInterface {
     @GET(ApiUrl.GITHUB_URL)
     Call<JsonArray> getCompanyInfo();
     */
+
+    @Headers({"Accept: application/json"})
+    @GET(ApiUrl.GITHUB_URL)
+    Call<JsonArray> getDrwsInfo();
 
     @Headers({"Accept: application/json"})
     @GET(ApiUrl.API_GET_DRW)
