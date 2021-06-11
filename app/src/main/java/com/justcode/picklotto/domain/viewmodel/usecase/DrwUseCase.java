@@ -18,6 +18,8 @@ import com.justcode.picklotto.ui.BaseActivity;
 import java.util.HashSet;
 import java.util.List;
 
+import lombok.SneakyThrows;
+
 public class DrwUseCase {
 
     public static String TAG = DrwUseCase.class.getSimpleName();
@@ -25,8 +27,9 @@ public class DrwUseCase {
     /**
      * 회차별 정보
      */
+    @SneakyThrows
     public static void getDrwInfo(Context context, DrwListener listener, int drwNo) {
-        ApiJsonObjectListener apiListener = new ApiJsonObjectListener() {
+        /*ApiJsonObjectListener apiListener = new ApiJsonObjectListener() {
             @Override
             public void onSuccess(int resultCode, JsonObject obj) {
                 String returnValue = obj.get("returnValue").getAsString();
@@ -45,7 +48,12 @@ public class DrwUseCase {
                 Log.e(TAG, status);
             }
         };
-        GetDrwApi.getDrwInfo(apiListener, drwNo);
+        GetDrwApi.getDrwInfo(apiListener, drwNo);*/
+        if (drwNo > BaseActivity.finalDrwNo) {
+            listener.onFail("fail");
+        } else {
+            listener.onSuccess(BaseActivity.mDrwViewModel.getDrwByDrwNo(drwNo));
+        }
     }
 
     /**
@@ -65,7 +73,14 @@ public class DrwUseCase {
                     );*/
                     return;
                 }
-                listener.onLoadComplete(array);
+                for (int i = 0; i < array.size(); i++) {
+                    JsonObject obj = (JsonObject) array.get(i);
+                    DrwEntity entity = DrwParser.getDrwEntity(obj);
+                    BaseActivity.mDrwViewModel.insert(entity);
+                    if (i == array.size() - 1) {
+                        listener.onLoadComplete(array);
+                    }
+                }
             }
 
             @Override
@@ -84,9 +99,9 @@ public class DrwUseCase {
         if (having.size() == 0) {
             return holes.toString();
         }
-        int minSequence = having.get(having.size()-1);
+        int minSequence = having.get(having.size() - 1);
         int maxSequence = having.get(0);
-        for(int sequence = minSequence; sequence <= maxSequence; sequence++) {
+        for (int sequence = minSequence; sequence <= maxSequence; sequence++) {
             holes.add(new Integer(sequence));
         }
         holes.removeAll(having);

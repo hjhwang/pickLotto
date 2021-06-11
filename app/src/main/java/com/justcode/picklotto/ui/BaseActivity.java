@@ -32,7 +32,6 @@ public class BaseActivity  extends AppCompatActivity implements ViewModelStoreOw
         mContext = this;
         mInflater = LayoutInflater.from(mContext);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
         mDrwViewModel = new ViewModelProvider(this, mViewModelFactory).get(DrwViewModel.class);
         mStatisticsViewModel = new ViewModelProvider(this, mViewModelFactory).get(StatisticsViewModel.class);

@@ -1,17 +1,18 @@
 package com.justcode.picklotto.ui.activity;
 
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.JsonArray;
 import com.justcode.picklotto.R;
 import com.justcode.picklotto.data.repository.entity.DrwEntity;
 import com.justcode.picklotto.databinding.ActivityIntroBinding;
+import com.justcode.picklotto.domain.listener.PermissionListener;
 import com.justcode.picklotto.domain.viewmodel.usecase.DrwUseCase;
+import com.justcode.picklotto.domain.viewmodel.usecase.PermissionUseCase;
 import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwListener;
 import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwsListener;
 import com.justcode.picklotto.ui.BaseActivity;
@@ -31,14 +32,29 @@ public class IntroActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_intro);
-        if (mDrwViewModel.getCount() == 0) {
-            DrwUseCase.getDrwInfo(this, mDrwListener, currentDrwNo);
-        } else {
-            startMainActivity();
-        }
-        DrwUseCase.getDrwsInfo(this, mDrwsListener);
+        PermissionUseCase.setUserPermission(mContext, mPermissionListener);
         getCurrentDrwbyDate();
     }
+
+    /**
+     * Permission 설정
+     */
+    PermissionListener mPermissionListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            if (finalDrwNo == BaseActivity.mDrwViewModel.getCount()) {
+                startMainActivity();
+            } else {
+                DrwUseCase.getDrwsInfo(IntroActivity.this, mDrwsListener);
+            }
+        }
+
+        @Override
+        public void onPermissionDenied() {
+            finishAffinity();
+            System.exit(0);
+        }
+    };
 
     @SneakyThrows
     public void getCurrentDrwbyDate() {
@@ -68,9 +84,16 @@ public class IntroActivity extends BaseActivity {
      * 업체 설정
      */
     DrwsListener mDrwsListener = new DrwsListener() {
+        @SneakyThrows
         @Override
         public void onLoadComplete(JsonArray array) {
-            Log.e(TAG, array.toString());
+            DrwEntity entity = BaseActivity.mDrwViewModel.getLastDrwNo();
+            if (entity.getDrwNo() != finalDrwNo) {
+                currentDrwNo = entity.getDrwNo();
+                DrwUseCase.getDrwInfo(IntroActivity.this, mDrwListener, currentDrwNo);
+            } else {
+                startMainActivity();
+            }
         }
 
         @Override

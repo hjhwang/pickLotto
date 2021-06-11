@@ -4,4 +4,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="permission_denied_msg">권한을 거부 할 경우 본 서비스를 이용하실 수 없습니다.\n\n[설정]> [권한]에서 권한을 켜주세요.</string>
 </resources>

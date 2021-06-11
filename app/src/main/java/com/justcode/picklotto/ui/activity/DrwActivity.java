@@ -20,6 +20,7 @@ import com.justcode.picklotto.domain.viewmodel.usecase.DrwUseCase;
 import com.justcode.picklotto.domain.viewmodel.usecase.listener.DrwListener;
 import com.justcode.picklotto.ui.BaseActivity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,9 +78,15 @@ public class DrwActivity extends BaseActivity {
         mBinding.tvTitle.setText(entity.getDrwNo() + "회 당첨결과");
         mBinding.tvDate.setText(entity.getDrwNoDate());
 
-        int totalAmnt = (int) Math.floor(entity.getFirstAccumamnt() / 100000000);
-        int winAmnt = (int) Math.floor(entity.getFirstWinamnt() / 100000000);
-        mBinding.tvAmntData.setText(totalAmnt + "억원 " + "(" + entity.getFirstPrzwnerCo() + "명/" + winAmnt +"억)");
+        BigDecimal a = new BigDecimal(String.valueOf(entity.getFirstAccumamnt()));
+        BigDecimal b = new BigDecimal(String.valueOf(entity.getFirstWinamnt()));
+        BigDecimal c = new BigDecimal(String.valueOf(100000000));
+        BigDecimal total = a.divide(c);
+        BigDecimal win = b.divide(c);
+        int finalTotal = Integer.parseInt(String.valueOf(Math.round(total.doubleValue())));
+        int finalWin = Integer.parseInt(String.valueOf(Math.round(win.doubleValue())));
+
+        mBinding.tvAmntData.setText(finalTotal + "억원 " + "(" + entity.getFirstPrzwnerCo() + "명/" + finalWin +"억)");
 
         mBinding.winContainer.tvNo1.setText(String.valueOf(entity.getDrwtNo1()));
         mBinding.winContainer.tvNo2.setText(String.valueOf(entity.getDrwtNo2()));

@@ -30,6 +30,9 @@ public interface DrwDao {
     @Query("SELECT * FROM DRW_TABLE WHERE drwNo=:drwNo")
     DrwEntity getDrwByDrwNo(int drwNo);
 
+    @Query("SELECT * FROM DRW_TABLE ORDER BY drwNo DESC LIMIT 1")
+    DrwEntity getLastDrwNo();
+
     @Query("DELETE FROM DRW_TABLE")
     void deleteAll();
 

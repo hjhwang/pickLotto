@@ -37,8 +37,12 @@ public class DrwViewModel extends AndroidViewModel {
         return getAll() == null ? 0 : getAll().size();
     }
 
-    public DrwEntity getDeviceByAlias(String alias) throws ExecutionException, InterruptedException {
-        return new getEntityAsyncTask(mDao).execute(alias.toUpperCase()).get();
+    public DrwEntity getDrwByDrwNo(int drwNo) throws ExecutionException, InterruptedException {
+        return new getDrwByDrwNoAsyncTask(mDao).execute(drwNo).get();
+    }
+
+    public DrwEntity getLastDrwNo() throws ExecutionException, InterruptedException {
+        return new getLastDrwNoAsyncTask(mDao).execute().get();
     }
 
     public List<Integer> getStatistics() throws ExecutionException, InterruptedException {
@@ -80,16 +84,29 @@ public class DrwViewModel extends AndroidViewModel {
         }
     }
 
-    private static class getEntityAsyncTask extends AsyncTask<String, Void, DrwEntity> {
+    private static class getDrwByDrwNoAsyncTask extends AsyncTask<Integer, Void, DrwEntity> {
         private DrwDao mDao;
 
-        getEntityAsyncTask(DrwDao dao) {
+        getDrwByDrwNoAsyncTask(DrwDao dao) {
             mDao = dao;
         }
 
         @Override
-        protected DrwEntity doInBackground(String... strings) {
-            return mDao.getDrwByDrwNo(Integer.parseInt(strings[0]));
+        protected DrwEntity doInBackground(Integer... Integers) {
+            return mDao.getDrwByDrwNo(Integers[0]);
+        }
+    }
+
+    private static class getLastDrwNoAsyncTask extends AsyncTask<Void, Void, DrwEntity> {
+        private DrwDao mDao;
+
+        getLastDrwNoAsyncTask(DrwDao dao) {
+            mDao = dao;
+        }
+
+        @Override
+        protected DrwEntity doInBackground(Void... voids) {
+            return mDao.getLastDrwNo();
         }
     }
 
