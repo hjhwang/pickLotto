@@ -11,6 +11,10 @@ import android.widget.ImageView;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.justcode.picklotto.R;
@@ -40,6 +44,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     // 로또 공이미지 1~45번 받아놓기
     // bottom navigation : home(현재 회차 정보), QR, average(통계 그래프), select(random) : 상단(30개 통계 그래프)
 
+    // TODO : Admob
+    // 1. ca-app-pub-2744046875475466~8695433737
+    // 2. ca-app-pub-2744046875475466/2976203191
+
     private ActivityMainBinding mBinding;
     private LayoutLinearWinBinding mWinBinding;
 
@@ -54,12 +62,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBinding.btnDrw.setOnClickListener(this);
         mBinding.btnStatistics.setOnClickListener(this);
         mBinding.btnRandom.setOnClickListener(this);
-        mBinding.winContainer.btnLeft.setOnClickListener(this);
-        mBinding.winContainer.btnRight.setOnClickListener(this);
-        mBinding.winContainer.leftArrow.setVisibility(View.VISIBLE);
-        mBinding.winContainer.rightArrow.setVisibility(View.VISIBLE);
+        mBinding.icWinContainer.btnLeft.setOnClickListener(this);
+        mBinding.icWinContainer.btnRight.setOnClickListener(this);
+        mBinding.icWinContainer.leftArrow.setVisibility(View.VISIBLE);
+        mBinding.icWinContainer.rightArrow.setVisibility(View.VISIBLE);
         currentDrwNo = finalDrwNo;
         DrwUseCase.getDrwInfo(this, mDrwListener, currentDrwNo);
+
+        /*
+        add admob
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mBinding.adView.loadAd(adRequest);
+        */
     }
 
     @Override
@@ -164,47 +183,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         int finalTotal = Integer.parseInt(String.valueOf(Math.round(total.doubleValue())));
         int finalWin = Integer.parseInt(String.valueOf(Math.round(win.doubleValue())));
 
-        mBinding.tvAmntData.setText(finalTotal + "억원 " + "(" + entity.getFirstPrzwnerCo() + "명/" + finalWin +"억)");
+        mBinding.tvAmntData.setText(finalTotal + "억원 " + "(" + entity.getFirstPrzwnerCo() + "명/" + finalWin + "억)");
 
-        mBinding.winContainer.tvNo1.setText(String.valueOf(entity.getDrwtNo1()));
-        mBinding.winContainer.tvNo2.setText(String.valueOf(entity.getDrwtNo2()));
-        mBinding.winContainer.tvNo3.setText(String.valueOf(entity.getDrwtNo3()));
-        mBinding.winContainer.tvNo4.setText(String.valueOf(entity.getDrwtNo4()));
-        mBinding.winContainer.tvNo5.setText(String.valueOf(entity.getDrwtNo5()));
-        mBinding.winContainer.tvNo6.setText(String.valueOf(entity.getDrwtNo6()));
-        mBinding.winContainer.tvNo8.setText(String.valueOf(entity.getBnusNo()));
+        mBinding.icWinContainer.tvNo1.setText(String.valueOf(entity.getDrwtNo1()));
+        mBinding.icWinContainer.tvNo2.setText(String.valueOf(entity.getDrwtNo2()));
+        mBinding.icWinContainer.tvNo3.setText(String.valueOf(entity.getDrwtNo3()));
+        mBinding.icWinContainer.tvNo4.setText(String.valueOf(entity.getDrwtNo4()));
+        mBinding.icWinContainer.tvNo5.setText(String.valueOf(entity.getDrwtNo5()));
+        mBinding.icWinContainer.tvNo6.setText(String.valueOf(entity.getDrwtNo6()));
+        mBinding.icWinContainer.tvNo8.setText(String.valueOf(entity.getBnusNo()));
 
         int targetNum = 0;
-        ImageView img = mBinding.winContainer.imgShape1;
+        ImageView img = mBinding.icWinContainer.imgShape1;
         for (int i = 1; i <= 7; i++) {
             switch (i) {
                 case 1:
                     targetNum = entity.getDrwtNo1();
-                    img = mBinding.winContainer.imgShape1;
+                    img = mBinding.icWinContainer.imgShape1;
                     break;
                 case 2:
                     targetNum = entity.getDrwtNo2();
-                    img = mBinding.winContainer.imgShape2;
+                    img = mBinding.icWinContainer.imgShape2;
                     break;
                 case 3:
                     targetNum = entity.getDrwtNo3();
-                    img = mBinding.winContainer.imgShape3;
+                    img = mBinding.icWinContainer.imgShape3;
                     break;
                 case 4:
                     targetNum = entity.getDrwtNo4();
-                    img = mBinding.winContainer.imgShape4;
+                    img = mBinding.icWinContainer.imgShape4;
                     break;
                 case 5:
                     targetNum = entity.getDrwtNo5();
-                    img = mBinding.winContainer.imgShape5;
+                    img = mBinding.icWinContainer.imgShape5;
                     break;
                 case 6:
                     targetNum = entity.getDrwtNo6();
-                    img = mBinding.winContainer.imgShape6;
+                    img = mBinding.icWinContainer.imgShape6;
                     break;
                 case 7:
                     targetNum = entity.getBnusNo();
-                    img = mBinding.winContainer.imgShape8;
+                    img = mBinding.icWinContainer.imgShape8;
                     break;
                 default:
                     break;

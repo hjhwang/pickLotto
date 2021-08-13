@@ -39,7 +39,7 @@
                 android:textStyle="bold" />
 
             <include
-                android:id="@+id/win_container"
+                android:id="@+id/ic_win_container"
                 layout="@layout/layout_linear_win"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,12 +73,12 @@
                 android:layout_marginTop="50dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:weightSum="2">
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:padding="20dp"
@@ -115,11 +115,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1.5"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:padding="20dp"
-                    android:layout_marginBottom="20dp"
                     android:weightSum="2">
 
                     <Button
@@ -150,6 +150,18 @@
                     </Button>
 
                 </LinearLayout>
+
+                <!--
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+                    -->
 
             </LinearLayout>
 

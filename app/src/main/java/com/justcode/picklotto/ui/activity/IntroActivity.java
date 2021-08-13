@@ -81,7 +81,7 @@ public class IntroActivity extends BaseActivity {
     };
 
     /**
-     * 업체 설정
+     * 회차별 정보 설정
      */
     DrwsListener mDrwsListener = new DrwsListener() {
         @SneakyThrows
@@ -89,8 +89,8 @@ public class IntroActivity extends BaseActivity {
         public void onLoadComplete(JsonArray array) {
             DrwEntity entity = BaseActivity.mDrwViewModel.getLastDrwNo();
             if (entity.getDrwNo() != finalDrwNo) {
-                currentDrwNo = entity.getDrwNo();
-                DrwUseCase.getDrwInfo(IntroActivity.this, mDrwListener, currentDrwNo);
+                currentDrwNo = entity.getDrwNo() + 1;
+                DrwUseCase.getDrwInfoApi(IntroActivity.this, mDrwListener, currentDrwNo);
             } else {
                 startMainActivity();
             }

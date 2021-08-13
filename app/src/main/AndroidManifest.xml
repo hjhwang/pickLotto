@@ -24,6 +24,10 @@
         android:usesCleartextTraffic="true">
 
         <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2744046875475466~8695433737" />
+
+        <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/ball" />
 

@@ -29,7 +29,19 @@ public class DrwUseCase {
      */
     @SneakyThrows
     public static void getDrwInfo(Context context, DrwListener listener, int drwNo) {
-        /*ApiJsonObjectListener apiListener = new ApiJsonObjectListener() {
+        if (drwNo > BaseActivity.finalDrwNo) {
+            listener.onFail("fail");
+        } else {
+            listener.onSuccess(BaseActivity.mDrwViewModel.getDrwByDrwNo(drwNo));
+        }
+    }
+
+    /**
+     * 회차별 정보
+     */
+    @SneakyThrows
+    public static void getDrwInfoApi(Context context, DrwListener listener, int drwNo) {
+        ApiJsonObjectListener apiListener = new ApiJsonObjectListener() {
             @Override
             public void onSuccess(int resultCode, JsonObject obj) {
                 String returnValue = obj.get("returnValue").getAsString();
@@ -48,12 +60,7 @@ public class DrwUseCase {
                 Log.e(TAG, status);
             }
         };
-        GetDrwApi.getDrwInfo(apiListener, drwNo);*/
-        if (drwNo > BaseActivity.finalDrwNo) {
-            listener.onFail("fail");
-        } else {
-            listener.onSuccess(BaseActivity.mDrwViewModel.getDrwByDrwNo(drwNo));
-        }
+        GetDrwApi.getDrwInfo(apiListener, drwNo);
     }
 
     /**
