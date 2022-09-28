@@ -1,1 +1,2 @@
 # pickLotto
+toy project
